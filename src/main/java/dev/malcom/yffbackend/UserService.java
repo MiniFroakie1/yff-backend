@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -14,19 +15,20 @@ public class UserService {
         return repository.findAll();
     }
 
-    public Optional<User> findUserById(int id) {
+    public Optional<User> findUserById(UUID id) {
         return repository.findUserById(id);
     }
 
-    public User addNewUser(String name, String email) {
+    public User addNewUser(String name, String email, String password) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
+        user.setPassword(password);
         repository.save(user);
         return user;
     }
 
-    public boolean existsUserEmail(String email) {
-        return repository.existsUserByEmail(email);
+    public boolean existsUserEmailOrPassword(String email, String name) {
+        return repository.existsUserByEmailOrName(email, name);
     }
 }

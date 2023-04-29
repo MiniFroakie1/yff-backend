@@ -4,9 +4,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
-    Optional<User> findUserById(Integer id);
-    boolean existsUserByEmail(String email);
+public interface UserRepository extends CrudRepository<User, UUID> {
+    Optional<User> findUserById(UUID id);
+    boolean existsUserByEmailOrName(String email, String name);
+    void deleteUserById(UUID id);
 }

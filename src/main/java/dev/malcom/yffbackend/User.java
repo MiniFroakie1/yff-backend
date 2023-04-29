@@ -2,23 +2,27 @@ package dev.malcom.yffbackend;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue
+    private UUID id;
 
+    @Column(unique = true)
     private String name;
 
     @Column(unique = true)
     private String email;
 
+    private String password;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -36,5 +40,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

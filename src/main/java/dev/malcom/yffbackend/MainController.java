@@ -8,28 +8,31 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
-@RequestMapping(path = "/demo")
+@RequestMapping(path = "/api")
+@CrossOrigin(origins = "http://localhost:5173")
 public class MainController {
     @Autowired
     private UserService service;
 
     @GetMapping
     public ResponseEntity<Iterable<User>> getUsers() {
-        return new ResponseEntity<Iterable<User>>(service.findAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable int id) {
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable UUID id) {
         return new ResponseEntity<>(service.findUserById(id), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> addNewUser(@RequestBody Map<String, String> payload) {
-        if(!service.existsUserEmail(payload.get("email"))) {
-            return new ResponseEntity<>(service.addNewUser(payload.get("name"), payload.get("email")), HttpStatus.OK);
+        if(!service.existsUserEmailOrPassword(payload.get("email"), payload.get("name"))) {
+            return new ResponseEntity<>(service.addNewUser(payload.get("name"), payload.get("email"), payload.get("password")), HttpStatus.OK);
+        } else  {
+            return new ResponseEntity<>("Email/name is already in use", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("Email already in use",HttpStatus.CONFLICT);
     }
 }
