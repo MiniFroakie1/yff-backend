@@ -1,5 +1,7 @@
-package dev.malcom.yffbackend;
+package dev.malcom.yffbackend.services;
 
+import dev.malcom.yffbackend.User;
+import dev.malcom.yffbackend.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ public class UserService {
 
     public Optional<User> findUserById(UUID id) {
         return repository.findUserById(id);
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return repository.findUserByEmail(email);
     }
 
     public User addNewUser(String name, String email, String password) {
